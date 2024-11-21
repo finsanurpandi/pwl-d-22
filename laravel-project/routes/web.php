@@ -1,46 +1,24 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\LecturerController;
 
-// student controller
-Route::get('student', [StudentController::class, 'index']);
-Route::resource('lecturer', LecturerController::class);
-
-Route::get('/welcome', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/test', function () {
-//     return view('test.test');
-// });
-Route::view('/test', 'test.test');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::get('/test2/{name}', function ($name) {
-//     return "Hello ".$name;
-// });
+Route::get('/student', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified', 'role:admin'])->name('student');
 
-// Route::get('/test3/{name?}', function ($name = null) {
-//     if($name == null) {
-//         return "Hello World";
-//     } else {
-//         return "Welcome, ".$name;
-//     }
-// });
-Route::prefix('admin')->group(function(){
-    Route::get('/test2/{name}', function ($name) {
-        return "Hello ".$name;
-    });
-    
-    Route::get('/test3/{name?}', function ($name = null) {
-        if($name == null) {
-            return "Hello World";
-        } else {
-            return "Welcome, ".$name;
-        }
-    });
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// localhost:8000/admin/profile
-// localhost:8000/admin/dashboard
+require __DIR__.'/auth.php';
