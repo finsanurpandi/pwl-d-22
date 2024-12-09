@@ -31,7 +31,7 @@ class StudentSeeder extends Seeder
                 'year_entry' => $year,
                 'group' => $faker->randomElement(['A', 'B', 'C', 'D', 'NR']),
                 'nidn' => $lecturer->nidn,
-                'department_id' => $department->id
+                'department_id' => $lecturer->department_id
             ]);
         }
     }

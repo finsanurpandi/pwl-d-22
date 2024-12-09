@@ -18,7 +18,7 @@ class LecturerSeeder extends Seeder
         //id, nidn, firstname, last_name, deparment_id
         $faker = Faker::create('es_ES');
 
-        for($i=0; $i < 20; $i++)
+        for($i=0; $i < 50; $i++)
         {
             DB::table('lecturers')
                 ->insert([
@@ -26,6 +26,7 @@ class LecturerSeeder extends Seeder
                     'firstname' => $faker->firstName,
                     'last_name' => $faker->lastName,
                     'department_id' => rand(1,3),
+                    'is_active' => rand(0,1),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
